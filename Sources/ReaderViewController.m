@@ -467,6 +467,30 @@
 	return YES;
 }
 
+- (void) viewWillLayoutSubviews {
+#ifdef DEBUG
+	NSLog(@"%@ %s frame %@", [self.class description], __FUNCTION__, NSStringFromCGRect(self.view.frame));
+	NSLog(@"%@ %s bounds %@", [self.class description], __FUNCTION__, NSStringFromCGRect(self.view.bounds));
+#endif
+    
+	if (isVisible == NO) return; // iOS present modal bodge
+    
+	[self updateScrollViewContentViews]; // Update content views
+    
+	lastAppearSize = CGSizeZero; // Reset view size tracking
+}
+
+- (void) viewDidLayoutSubviews {
+#ifdef DEBUG
+	NSLog(@"%@ %s frame %@", [self.class description], __FUNCTION__, NSStringFromCGRect(self.view.frame));
+	NSLog(@"%@ %s bounds %@", [self.class description], __FUNCTION__, NSStringFromCGRect(self.view.bounds));
+#endif
+    
+	//if (isVisible == NO) return; // iOS present modal bodge
+    
+	//if (fromInterfaceOrientation == self.interfaceOrientation) return;
+}
+
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
 #ifdef DEBUGX
@@ -480,6 +504,7 @@
 		if (printInteraction != nil) [printInteraction dismissAnimated:NO];
 	}
 }
+
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation duration:(NSTimeInterval)duration
 {
